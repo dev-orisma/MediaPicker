@@ -11,7 +11,9 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+import net.alhazmy13.mediapicker.FlagSecureActivity;
+
+public class MainActivity extends FlagSecureActivity {
     private Fragment videoFragment = new VideoFragment();
     private Fragment imageFragment = new ImageFragment();
 
