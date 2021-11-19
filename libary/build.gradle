@@ -3,14 +3,14 @@ apply plugin: 'com.novoda.bintray-release'
 
 //./gradlew bintrayUpload
 publish {
-    userOrg = 'alhazmy13'
-    groupId = 'net.alhazmy13.MediaPicker'
+    userOrg = 'dev-orisma'
+    groupId = 'com.github.dev-orisma.MediaPicker'
     artifactId = 'libary'
     uploadName = 'MediaPicker'
-    publishVersion = '2.4.4'
+    publishVersion = '2.4.5'
     desc = 'MediaPicker'
     dryRun = false
-    website = 'https://github.com/alhzmy13/MediaPicker'
+    website = 'https://github.com/dev-orisma/MediaPicker'
 }
 
 android {

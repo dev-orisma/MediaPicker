@@ -23,9 +23,9 @@ This build `2.x.x` will break backward compatibility and there are a lot of chan
 
 ```xml
 <dependency>
-<groupId>net.alhazmy13.MediaPicker</groupId>
+<groupId>com.github.dev-orisma.MediaPicker</groupId>
 <artifactId>libary</artifactId>
-<version>2.4.4</version>
+<version>2.4.5</version>
 </dependency>
 ```
 
@@ -34,7 +34,7 @@ This build `2.x.x` will break backward compatibility and there are a lot of chan
 
 ```gradle
 dependencies {
-	implementation 'net.alhazmy13.MediaPicker:libary:2.4.4'
+	implementation 'com.github.dev-orisma.MediaPicker:libary:2.4.5'
 }
 ```
 
