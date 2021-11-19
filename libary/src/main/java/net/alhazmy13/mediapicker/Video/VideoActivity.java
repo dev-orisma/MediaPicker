@@ -21,6 +21,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import net.alhazmy13.mediapicker.FileProcessing;
+import net.alhazmy13.mediapicker.FlagSecureActivity;
 import net.alhazmy13.mediapicker.R;
 import net.alhazmy13.mediapicker.Utility;
 
@@ -36,7 +37,7 @@ import java.util.Map;
  * Created by Alhazmy13 on 10/26/15.
  * MediaPicker
  */
-public class VideoActivity extends AppCompatActivity {
+public class VideoActivity extends FlagSecureActivity {
 
     private File destination;
     private Uri mVideoUri;
