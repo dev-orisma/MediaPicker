@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Environment;
 
+import net.alhazmy13.mediapicker.Utility;
+
 import java.lang.ref.WeakReference;
 
 /**
@@ -83,7 +85,7 @@ public class ImagePicker {
         public ImagePicker.Builder directory(Directory directory) {
             switch (directory) {
                 case DEFAULT:
-                    this.imageConfig.directory = Environment.getExternalStorageDirectory() + ImageTags.Tags.IMAGE_PICKER_DIR;
+                    this.imageConfig.directory = Utility.getFilesFolderPath(getContext(),ImageTags.Tags.IMAGE_PICKER_DIR);
                     break;
                 default:
                     break;

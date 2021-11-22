@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Environment;
 
+import net.alhazmy13.mediapicker.Image.ImageTags;
+import net.alhazmy13.mediapicker.Utility;
+
 import java.lang.ref.WeakReference;
 
 
@@ -58,7 +61,7 @@ public class VideoPicker {
         public VideoPicker.Builder directory(VideoPicker.Directory directory) {
             switch (directory) {
                 case DEFAULT:
-                    this.imageConfig.directory = Environment.getExternalStorageDirectory() + VideoTags.Tags.IMAGE_PICKER_DIR;
+                    this.imageConfig.directory = Utility.getFilesFolderPath(getContext(), VideoTags.Tags.IMAGE_PICKER_DIR);
                     break;
                 default:
                     break;

@@ -132,4 +132,11 @@ public class Utility {
         return rotate;
     }
 
+    public static String getFilesFolderPath(Context ctx,final String destinationFolder) {
+        File folder = new File(ctx.getFilesDir().getAbsolutePath(), destinationFolder);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+        return folder.getAbsolutePath() + "/";
+    }
 }

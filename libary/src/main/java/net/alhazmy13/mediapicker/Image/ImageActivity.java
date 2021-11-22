@@ -291,7 +291,7 @@ public class ImageActivity extends FlagSecureActivity {
             final List<String> permissionsList = new ArrayList<>();
             if ((mImgConfig.mode == ImagePicker.Mode.CAMERA || mImgConfig.mode == ImagePicker.Mode.CAMERA_AND_GALLERY) && !addPermission(permissionsList, Manifest.permission.CAMERA))
                 permissionsNeeded.add(getString(R.string.media_picker_camera));
-            if (!addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+            if (!addPermission(permissionsList, Manifest.permission.READ_EXTERNAL_STORAGE))
                 permissionsNeeded.add(getString(R.string.media_picker_read_Write_external_storage));
 
             if (permissionsList.size() > 0) {
@@ -346,13 +346,13 @@ public class ImageActivity extends FlagSecureActivity {
                 Map<String, Integer> perms = new HashMap<>();
                 // Initial
                 perms.put(Manifest.permission.CAMERA, PackageManager.PERMISSION_GRANTED);
-                perms.put(Manifest.permission.WRITE_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
+                perms.put(Manifest.permission.READ_EXTERNAL_STORAGE, PackageManager.PERMISSION_GRANTED);
                 // Fill with results
                 for (int i = 0; i < permissions.length; i++)
                     perms.put(permissions[i], grantResults[i]);
                 // Check for ACCESS_FINE_LOCATION
                 if (perms.get(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
-                        && perms.get(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                        && perms.get(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                     // All Permissions Granted
                     pickImage();
                 } else {
