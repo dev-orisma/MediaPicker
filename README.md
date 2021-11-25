@@ -7,7 +7,7 @@
 
 ```gradle
 dependencies {
-	implementation 'com.github.dev-orisma:MediaPicker:2.4.7'
+	implementation 'com.github.dev-orisma:MediaPicker:2.4.8'
 }
 ```
 

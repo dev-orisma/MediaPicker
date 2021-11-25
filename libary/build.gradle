@@ -7,7 +7,7 @@ publish {
     groupId = 'com.github.dev-orisma.MediaPicker'
     artifactId = 'libary'
     uploadName = 'MediaPicker'
-    publishVersion = '2.4.6'
+    publishVersion = '2.4.8'
     desc = 'MediaPicker'
     dryRun = false
     website = 'https://github.com/dev-orisma/MediaPicker'
