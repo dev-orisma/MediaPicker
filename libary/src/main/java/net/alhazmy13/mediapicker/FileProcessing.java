@@ -8,8 +8,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 import android.text.TextUtils;
 
 import java.io.File;
@@ -82,6 +84,9 @@ public class FileProcessing {
             }
             // MediaProvider
             else if (isMediaDocument(uri)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                    return getDataWithParcel(context,uri);
+                }
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
                 final String type = split[0];
@@ -99,7 +104,6 @@ public class FileProcessing {
                 final String[] selectionArgs = new String[]{
                         split[1]
                 };
-
                 return getDataColumn(context, contentUri, selection, selectionArgs);
             }
         }
@@ -147,7 +151,34 @@ public class FileProcessing {
         }
         return null;
     }
+    private static String getDataWithParcel(Context context, Uri uri) {
+        Cursor cursor = null;
+        try {
+            ParcelFileDescriptor parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r", null);
+            InputStream in = new FileInputStream(parcelFileDescriptor.getFileDescriptor());
+            cursor = context.getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                final int column_index = cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME);
+                String name = cursor.getString(column_index);
+                File file = new File(context.getCacheDir(),name);
+                FileOutputStream out = new FileOutputStream(file);
 
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+                in.close();
+                out.close();
+                return file.getAbsolutePath();
+            }
+        } catch (Exception ignored) {
+        } finally {
+            if (cursor != null)
+                cursor.close();
+        }
+        return null;
+    }
 
     /**
      * @param uri The Uri to check.
@@ -174,15 +205,7 @@ public class FileProcessing {
     }
 
     public static String getVideoPath(final Uri uri, final Activity activity) {
-        String[] projection = {MediaStore.Images.Media.DATA};
-        Cursor cursor = activity.managedQuery(uri, projection, null, null, null);
-        if (cursor != null) {
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } else
-            return null;
+        return getDataWithParcel(activity.getApplicationContext(),uri);
     }
 
     public static void copyDirectory(File sourceLocation , File targetLocation) {
