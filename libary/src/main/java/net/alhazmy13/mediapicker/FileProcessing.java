@@ -46,10 +46,12 @@ public class FileProcessing {
 
         // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
+            Log.d(ImageTags.Tags.TAG,"isDocumentUri");
             String filePath = "";
 
             // ExternalStorageProvider
             if (isExternalStorageDocument(uri)) {
+                Log.d(ImageTags.Tags.TAG,"isExternalStorageDocument");
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
                 final String type = split[0];
@@ -73,7 +75,7 @@ public class FileProcessing {
             }
             // DownloadsProvider
             else if (isDownloadsDocument(uri)) {
-
+                Log.d(ImageTags.Tags.TAG,"isDownloadsDocument");
                 final String id = DocumentsContract.getDocumentId(uri);
                 if (!TextUtils.isEmpty(id)) {
                     if (id.startsWith("raw:")) {
@@ -112,10 +114,12 @@ public class FileProcessing {
         }
         // MediaStore (and general)
         else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            Log.d(ImageTags.Tags.TAG,"MediaStore (and general)");
             return getDataColumn(context, uri, null, null);
         }
         // File
         else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            Log.d(ImageTags.Tags.TAG,"File");
             return uri.getPath();
         }
 
