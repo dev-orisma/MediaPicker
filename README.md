@@ -1,13 +1,15 @@
 # About this fork
 1. Add FLAG_SECURE in Activity.
-2. Remove Rxjava
-3. Not use WRITE_EXTERNAL_STORAGE permission
+2. Add FLAG_FULLSCREEN in Activity.
+3. Remove Rxjava.
+4. Not use WRITE_EXTERNAL_STORAGE permission.
+5. Fix some bug.
 
 **Gradle**
 
 ```gradle
 dependencies {
-	implementation 'com.github.dev-orisma:MediaPicker:2.4.8'
+	implementation 'com.github.dev-orisma:MediaPicker:2.5.0'
 }
 ```
 
