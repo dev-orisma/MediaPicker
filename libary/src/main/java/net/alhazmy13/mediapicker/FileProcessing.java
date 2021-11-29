@@ -13,9 +13,6 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
-import android.util.Log;
-
-import net.alhazmy13.mediapicker.Image.ImageTags;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,18 +38,15 @@ public class FileProcessing {
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public static String getPath(final Context context, final Uri uri) {
-        Log.d(ImageTags.Tags.TAG,"SDK_INT:" + Build.VERSION.SDK_INT);
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
         final boolean isOreo = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1;
 
         // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
-            Log.d(ImageTags.Tags.TAG,"isDocumentUri");
             String filePath = "";
 
             // ExternalStorageProvider
             if (isExternalStorageDocument(uri)) {
-                Log.d(ImageTags.Tags.TAG,"isExternalStorageDocument");
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
                 final String type = split[0];
@@ -76,7 +70,6 @@ public class FileProcessing {
             }
             // DownloadsProvider
             else if (isDownloadsDocument(uri)) {
-                Log.d(ImageTags.Tags.TAG,"isDownloadsDocument");
                 final String id = DocumentsContract.getDocumentId(uri);
                 if (!TextUtils.isEmpty(id)) {
                     if (id.startsWith("raw:")) {
@@ -115,7 +108,6 @@ public class FileProcessing {
         }
         // MediaStore (and general)
         else if ("content".equalsIgnoreCase(uri.getScheme())) {
-            Log.d(ImageTags.Tags.TAG,"MediaStore (and general)");
             if (isOreo) {
                 return getDataWithParcel(context,uri);
             }
@@ -123,7 +115,6 @@ public class FileProcessing {
         }
         // File
         else if ("file".equalsIgnoreCase(uri.getScheme())) {
-            Log.d(ImageTags.Tags.TAG,"File");
             return uri.getPath();
         }
 
@@ -163,7 +154,6 @@ public class FileProcessing {
         return null;
     }
     private static String getDataWithParcel(Context context, Uri uri) {
-        Log.d(ImageTags.Tags.TAG,"getDataWithParcel");
         Cursor cursor = null;
         try {
             ParcelFileDescriptor parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r", null);
@@ -182,12 +172,9 @@ public class FileProcessing {
                 }
                 in.close();
                 out.close();
-                Log.d(ImageTags.Tags.TAG,"outputPath:" + file.getAbsolutePath());
                 return file.getAbsolutePath();
             }
-        } catch (Exception ignored) {
-            Log.d(ImageTags.Tags.TAG,"getDataWithParcelException:" + ignored.getMessage());
-        } finally {
+        } catch (Exception ignored) {} finally {
             if (cursor != null)
                 cursor.close();
         }

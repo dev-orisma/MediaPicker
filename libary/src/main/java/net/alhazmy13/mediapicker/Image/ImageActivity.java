@@ -258,7 +258,6 @@ public class ImageActivity extends FlagSecureActivity {
                     for (int i = 0; i < clipdata.getItemCount(); i++) {
                         Uri selectedImage = clipdata.getItemAt(i).getUri();
                         String selectedImagePath = FileProcessing.getPath(ImageActivity.this, selectedImage);
-                        Log.d(ImageTags.Tags.TAG,selectedImagePath);
                         listOfImgs.add(selectedImagePath);
                     }
                     new CompressImageTask(listOfImgs, mImgConfig, ImageActivity.this).execute();
@@ -278,7 +277,6 @@ public class ImageActivity extends FlagSecureActivity {
                     new ImageActivity.SaveImageFromGoogleDriveTask(fileTempPath, mImgConfig, selectedImage, ImageActivity.this).execute();
                 } else {
                     String selectedImagePath = FileProcessing.getPath(this, selectedImage);
-                    Log.d(ImageTags.Tags.TAG,selectedImagePath);
                     new ImageActivity.CompressImageTask(selectedImagePath,
                             mImgConfig, ImageActivity.this).execute();
                 }
