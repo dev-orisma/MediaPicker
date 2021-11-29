@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import net.alhazmy13.mediapicker.FileProcessing;
 import net.alhazmy13.mediapicker.FlagSecureActivity;
+import net.alhazmy13.mediapicker.Image.ImageActivity;
 import net.alhazmy13.mediapicker.R;
 import net.alhazmy13.mediapicker.Utility;
 
@@ -256,6 +257,7 @@ public class VideoActivity extends FlagSecureActivity {
         finish();
     }
 
+    boolean clickOk = false;
     private void pickVideoWrapper() {
         if (Build.VERSION.SDK_INT >= 23) {
             List<String> permissionsNeeded = new ArrayList<>();
@@ -272,14 +274,21 @@ public class VideoActivity extends FlagSecureActivity {
                     StringBuilder message = new StringBuilder(getString(R.string.media_picker_you_need_to_grant_access_to) + permissionsNeeded.get(0));
                     for (int i = 1; i < permissionsNeeded.size(); i++)
                         message.append(", ").append(permissionsNeeded.get(i));
-                    showMessageOKCancel(message.toString(),
+                    AlertDialog dialog = showMessageOKCancel(message.toString(),
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    clickOk = true;
                                     ActivityCompat.requestPermissions(VideoActivity.this, permissionsList.toArray(new String[permissionsList.size()]),
                                             VideoTags.IntentCode.REQUEST_CODE_ASK_PERMISSIONS);
                                 }
                             });
+                    dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        public void onDismiss(DialogInterface a) {
+                            if (!clickOk) finish();
+                        }
+                    });
+                    dialog.show();
                     return;
                 }
                 ActivityCompat.requestPermissions(VideoActivity.this, permissionsList.toArray(new String[permissionsList.size()]),
@@ -293,13 +302,12 @@ public class VideoActivity extends FlagSecureActivity {
         }
     }
 
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(VideoActivity.this)
+    private AlertDialog showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        return new AlertDialog.Builder(VideoActivity.this)
                 .setMessage(message)
                 .setPositiveButton(getString(R.string.media_picker_ok), okListener)
                 .setNegativeButton(getString(R.string.media_picker_cancel), null)
-                .create()
-                .show();
+                .create();
     }
 
     private boolean addPermission(List<String> permissionsList, String permission) {
@@ -331,6 +339,7 @@ public class VideoActivity extends FlagSecureActivity {
                     // Permission Denied
                     Toast.makeText(VideoActivity.this, getString(R.string.media_picker_some_permission_is_denied), Toast.LENGTH_SHORT)
                             .show();
+                    finish();
                 }
 
                 break;
