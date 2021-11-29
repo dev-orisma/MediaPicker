@@ -43,6 +43,7 @@ public class FileProcessing {
     public static String getPath(final Context context, final Uri uri) {
         Log.d(ImageTags.Tags.TAG,"SDK_INT:" + Build.VERSION.SDK_INT);
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
+        final boolean isOreo = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1;
 
         // DocumentProvider
         if (isKitKat && DocumentsContract.isDocumentUri(context, uri)) {
@@ -89,7 +90,7 @@ public class FileProcessing {
             }
             // MediaProvider
             else if (isMediaDocument(uri)) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                if (isOreo) {
                     return getDataWithParcel(context,uri);
                 }
                 final String docId = DocumentsContract.getDocumentId(uri);
@@ -115,6 +116,9 @@ public class FileProcessing {
         // MediaStore (and general)
         else if ("content".equalsIgnoreCase(uri.getScheme())) {
             Log.d(ImageTags.Tags.TAG,"MediaStore (and general)");
+            if (isOreo) {
+                return getDataWithParcel(context,uri);
+            }
             return getDataColumn(context, uri, null, null);
         }
         // File
