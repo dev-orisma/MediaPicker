@@ -13,6 +13,9 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
+import android.util.Log;
+
+import net.alhazmy13.mediapicker.Image.ImageTags;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -38,7 +41,7 @@ public class FileProcessing {
      */
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public static String getPath(final Context context, final Uri uri) {
-
+        Log.d(ImageTags.Tags.TAG,"SDK_INT:" + Build.VERSION.SDK_INT);
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 
         // DocumentProvider
@@ -152,6 +155,7 @@ public class FileProcessing {
         return null;
     }
     private static String getDataWithParcel(Context context, Uri uri) {
+        Log.d(ImageTags.Tags.TAG,"getDataWithParcel");
         Cursor cursor = null;
         try {
             ParcelFileDescriptor parcelFileDescriptor = context.getContentResolver().openFileDescriptor(uri, "r", null);
@@ -170,9 +174,11 @@ public class FileProcessing {
                 }
                 in.close();
                 out.close();
+                Log.d(ImageTags.Tags.TAG,"outputPath:" + file.getAbsolutePath());
                 return file.getAbsolutePath();
             }
         } catch (Exception ignored) {
+            Log.d(ImageTags.Tags.TAG,"getDataWithParcelException:" + ignored.getMessage());
         } finally {
             if (cursor != null)
                 cursor.close();
